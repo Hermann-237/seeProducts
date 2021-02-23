@@ -20,6 +20,7 @@
     "express-validator": "^6.9.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.17",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "vercel": "^21.2.3"
   }
 }
