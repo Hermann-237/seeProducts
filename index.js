@@ -6,7 +6,8 @@ const bcrypt = require("bcrypt")
 const mongoose = require("mongoose")
 require("dotenv").config()
 const app = express()
-const URI = process.env.DB;
+// const URI = process.env.DB; 
+const URI = "mongodb+srv://user4:1234@cluster0.nvyxm.mongodb.net/productDB?retryWrites=true&w=majority";
 mongoose.connect(URI,({useNewUrlParser:true,useUnifiedTopology:true})).then(()=>console.log("You are connecting to your database")).catch(err => console.log(err))
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended:true}))
@@ -52,7 +53,7 @@ const schemaProducts = new mongoose.Schema({
 const ProductDb = mongoose.connection.model("products",schemaProducts)
 
 
-const port = 80;
+const port = 8080;
   
 app.set("view engine","ejs")
 app.set("views",__dirname+"/views")
