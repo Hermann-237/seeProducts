@@ -53,7 +53,7 @@ const schemaProducts = new mongoose.Schema({
 const ProductDb = mongoose.connection.model("products",schemaProducts)
 
 
-const port = 80;
+const port = 8080;
   
 app.set("view engine","ejs")
 app.set("views",__dirname+"/views")
@@ -85,7 +85,10 @@ function verifyToken(req,res,next){
 
 app.post("/user",(req,res)=>{
    /* const password = req.body.password, */
-   var hash = bcrypt.hashSync(req.body.password, 12)
+ Users.findOne({email:req.body.email}).then(data =>{
+  if(data)res.status(200).render("errors/errLogin",{result:`${req.body.email} is already in use try the new one`})
+  else{
+    var hash = bcrypt.hashSync(req.body.password, 12)
     const newUser = new Users({
         name:req.body.name,
         email:req.body.email,
@@ -95,6 +98,10 @@ app.post("/user",(req,res)=>{
         console.log("the new user has been stored")
         res.status(200).render("adduser")
     }).catch(e => console.log(e))
+  }
+ })
+
+   
 })
 
 app.get("/products",verifyToken,(req,res)=>{   
