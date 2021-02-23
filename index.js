@@ -52,7 +52,7 @@ const schemaProducts = new mongoose.Schema({
 const ProductDb = mongoose.connection.model("products",schemaProducts)
 
 
-const port = process.env.PORT ||8080;
+const port = 80;
   
 app.set("view engine","ejs")
 app.set("views",__dirname+"/views")
@@ -70,22 +70,9 @@ app.get("/user",(req,res)=>{
 })
 
 
-/* function authenticationUser(req,res,next){
-    const bearerHeader =
-    if( bearerHeader ){
-        const bearer = bearerHeader.split(" ")
-        const bearerToken = bearer[1]
-        req.token = bearerToken;
-        next()
-    }
-    else{
-        res.status(403).send("You have no access ")
-    }
-} */
+
 
 function verifyToken(req,res,next){
- /* const authCookie = req.cookie.authCookie */
- /* console.log(authCookie) */
  if(!req.cookies || !req.cookies.authCookie) res.status(403).render("errors/errLogin",{result:`You first have to log in
  `})
  else{
@@ -132,7 +119,6 @@ app.post("/login",(req,res)=>{
 
                 const token = jwt.sign({data}, "secretNumber")
                 res.status(200).cookie("authCookie",token,{httpOnly:true,maxAge:900000}).render("connectPage",{person: data.name})
-                /* console.log(res.cookie("token",token,{httpOnly:true,maxAge:900000})) */
             }
 
         }
