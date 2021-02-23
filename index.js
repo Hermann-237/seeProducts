@@ -52,7 +52,7 @@ const schemaProducts = new mongoose.Schema({
 const ProductDb = mongoose.connection.model("products",schemaProducts)
 
 
-const port = 80;
+const port = 8080 || 8080;
   
 app.set("view engine","ejs")
 app.set("views",__dirname+"/views")
@@ -98,7 +98,6 @@ app.post("/user",(req,res)=>{
 
 app.get("/products",verifyToken,(req,res)=>{   
     ProductDb.find({}).then(data =>{
-        console.log(data)
         res.status(200).render("allProducts",{data:data})
     })
 })
