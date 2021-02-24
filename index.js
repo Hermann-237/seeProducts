@@ -54,7 +54,7 @@ const schemaProducts = new mongoose.Schema({
 const ProductDb = mongoose.connection.model("products",schemaProducts)
 
 
-const port = 8080;
+const port = 80;
   
 app.set("view engine","ejs")
 app.set("views",__dirname+"/views")
