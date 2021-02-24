@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const mongoose = require("mongoose")
+const { add } = require("lodash")
 require("dotenv").config()
 const app = express()
 // const URI = process.env.DB; 
@@ -53,7 +54,7 @@ const schemaProducts = new mongoose.Schema({
 const ProductDb = mongoose.connection.model("products",schemaProducts)
 
 
-const port = 80;
+const port = 8080;
   
 app.set("view engine","ejs")
 app.set("views",__dirname+"/views")
@@ -82,6 +83,24 @@ function verifyToken(req,res,next){
  }
 } 
 
+app.get("/addproducts",(req,res)=>{
+    res.status(200).render("addproducts")
+})
+
+ app.post("/addproducts",(req,res)=>{
+    const newProducts = new ProductDb ({
+        articleNo:req.body.articleNo,
+        name:req.body.name,
+        description:req.body.description,
+        price:req.body.price
+    })
+    newProducts.save()
+    .then(()=>res.status(200).render("addproducts"))
+    .catch(err => console.log(err))
+}) 
+
+
+
 
 app.post("/user",(req,res)=>{
    /* const password = req.body.password, */
@@ -106,9 +125,13 @@ app.post("/user",(req,res)=>{
 
 app.get("/products",verifyToken,(req,res)=>{   
     ProductDb.find({}).then(data =>{
-        res.status(200).render("allProducts",{data:data})
+        res.status(200).render("allproducts",{data:data})
     })
 })
+
+
+
+
 
 app.post("/login",(req,res)=>{
     Users.findOne({email:req.body.email}).then(data =>{
@@ -133,7 +156,7 @@ app.post("/login",(req,res)=>{
 })
 
  app.post("/singlepage",(req,res)=>{
-    ProductDb.findOne({articleNo:req.body.seach}).then(data =>{
+    ProductDb.find({articleNo:req.body.seach}).then(data =>{
         res.status(200).render("singlepage",{data:data})
     })
 }) 

@@ -24,12 +24,13 @@
                 </tr>
             </thead>
             <tbody>
+                <% for(let i=0; i < data.length; i++) { %>
                 <tr>
-                    <td><%= data.name %></td>
-                    <td><%= data.articleNo %></td>
-                    <td class="text-primary">$ <%= data.price %></td>
+                    <td><%= data[i].name %></td>
+                    <td><%= data[i].articleNo %></td>
+                    <td class="text-primary">$ <%= data[i].price %></td>
                 </tr>
-             
+                <% } %>
             </tbody>
         </table>
     </div>
